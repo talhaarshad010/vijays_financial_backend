@@ -1,8 +1,11 @@
 const express = require("express");
-// const user_controlller = require("./user.controller");
+const user_controlller = require("./user.controller");
+const authMiddleware = require("../../config/auth");
 const router = express.Router();
-// router.post("/userSignup", user_controlller.userSignup);
-// router.post("/userLogin", user_controlller.userLogin);
+router.post("/userSignup", user_controlller.userSignup);
+router.post("/userSignin", user_controlller.userSignin);
+router.post("/setMode", authMiddleware, user_controlller.setMode);
+router.post("/createCompany", authMiddleware, user_controlller.createCompany);
 // router.post("/forgetPassword", user_controlller.forgetPassword);
 // router.patch("/resetPassword/:id", user_controlller.resetPassword);
 // router.post("/changePassword", user_controlller.changePassword);

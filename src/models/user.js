@@ -2,78 +2,33 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema(
   {
-    stripeCustomerID: {
+    name: {
       type: String,
-      require: true,
+      required: true,
     },
-    profileImage: {
-      type: String,
-      default: null,
-    },
-
-    fullName: {
-      type: String,
-      require: true,
-    },
-
     email: {
       type: String,
-      require: true,
+      required: true,
+      unique: true,
     },
-
     password: {
       type: String,
-      require: true,
+      required: true,
     },
-    Address: {
-      type: String,
-      require: true,
-    },
-    resetPasswordVerificationCode: {
+    mode: {
       type: String,
       default: null,
-    },
-
-    resetcodeExpiry: {
-      type: Date,
-      default: null,
-    },
-
-    gender: {
-      type: String,
-      default: null,
-    },
-
-    Dob: {
-      type: String,
-      default: null,
-    },
-
-    weight: {
-      type: Number,
-      default: null,
-    },
-
-    height: {
-      type: Number,
-      default: null,
-    },
-    isType: {
-      type: String,
-      default: "user",
     },
     token: {
       type: String,
       default: null,
     },
-    followedTrainers: {
-      type: [mongoose.Schema.Types.ObjectId],
-      default: [],
-    },
-    favoriteTrainers: {
-      type: Array,
-      default: null,
-    },
+    companies: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "company",
+      },
+    ],
   },
   { timestamps: true }
 );
