@@ -73,7 +73,12 @@ const userSignin = async (req, res) => {
     res.status(200).json({
       message: "Login successful!",
       token,
-      user: { id: user._id, name: user.name, email: user.email },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        mode: user.mode,
+      },
     });
   } catch (error) {
     console.error(error);
@@ -159,7 +164,6 @@ const createCompany = async (req, res) => {
 
     await newCompany.save();
 
-    // Save company ID in the user's companies array
     user.companies.push(newCompany._id);
     await user.save();
 
