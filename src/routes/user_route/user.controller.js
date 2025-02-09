@@ -74,6 +74,7 @@ const userSignin = async (req, res) => {
         name: user.name,
         email: user.email,
         mode: user.mode,
+        companies: user.companies.length,
       },
     });
   } catch (error) {
