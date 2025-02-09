@@ -128,6 +128,22 @@ const createCompany = async (req, res) => {
       website,
     } = req.body;
 
+    // Validate required fields
+    if (
+      !companyName ||
+      !email ||
+      !phoneNumber ||
+      !NtnNumber ||
+      !country ||
+      !province ||
+      !city
+    ) {
+      return res
+        .status(400)
+        .json({ message: "Please fill all required fields!" });
+    }
+
+    // Find the user
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
@@ -153,6 +169,7 @@ const createCompany = async (req, res) => {
       });
     }
 
+    // Create new company
     const newCompany = new company({
       userId,
       companyName,
@@ -170,6 +187,7 @@ const createCompany = async (req, res) => {
 
     await newCompany.save();
 
+    // Store company ID in user's "companies" array
     user.companies.push(newCompany._id);
     await user.save();
 
