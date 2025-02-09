@@ -8,22 +8,18 @@ const userSignup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if all fields are provided
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required!" });
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists!" });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create new user with token
     const newUser = new User({
       name,
       email,
@@ -88,23 +84,21 @@ const userSignin = async (req, res) => {
 
 const setMode = async (req, res) => {
   try {
-    const { userId } = req.user; // Get user ID from token
+    const { userId } = req.user;
     const { mode } = req.body;
 
-    // Validate input
     if (!mode || (mode !== "Pro" && mode !== "Normal")) {
       return res
         .status(400)
         .json({ message: "Invalid mode. Choose 'Pro' or 'Basic'." });
     }
 
-    // Find the user and update mode
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    user.mode = mode; // Update mode
+    user.mode = mode;
     await user.save();
 
     res.status(200).json({
@@ -119,7 +113,7 @@ const setMode = async (req, res) => {
 
 const createCompany = async (req, res) => {
   try {
-    const { userId } = req.user; // Get user ID from token
+    const { userId } = req.user;
     const {
       companyName,
       businessType,
@@ -134,13 +128,11 @@ const createCompany = async (req, res) => {
       website,
     } = req.body;
 
-    // Find the user
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    // If user is "Normal", allow the request but don't save in database
     if (user.mode !== "Pro") {
       return res.status(200).json({
         message:
@@ -161,9 +153,8 @@ const createCompany = async (req, res) => {
       });
     }
 
-    // Create new company with userId for Pro users
-    const newCompany = new Company({
-      userId, // Storing user ID inside company
+    const newCompany = new company({
+      userId,
       companyName,
       businessType,
       registerAddress,
@@ -179,7 +170,6 @@ const createCompany = async (req, res) => {
 
     await newCompany.save();
 
-    // Push new company ID to user's companies array
     user.companies.push(newCompany._id);
     await user.save();
 
@@ -195,9 +185,7 @@ const createCompany = async (req, res) => {
 
 const getUserCompanies = async (req, res) => {
   try {
-    const { userId } = req.user; // Get user ID from token
-
-    // Find user and populate company details
+    const { userId } = req.user;
     const user = await User.findById(userId).populate("companies");
 
     if (!user || user.companies.length === 0) {

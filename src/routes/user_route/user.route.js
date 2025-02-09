@@ -6,7 +6,7 @@ router.post("/userSignup", user_controlller.userSignup);
 router.post("/userSignin", user_controlller.userSignin);
 router.post("/setMode", authMiddleware, user_controlller.setMode);
 router.post("/createCompany", authMiddleware, user_controlller.createCompany);
-router.get("/createCompany", user_controlller.getUserCompanies);
+router.get("/getCompanies", authMiddleware, user_controlller.getUserCompanies);
 // router.post("/forgetPassword", user_controlller.forgetPassword);
 // router.patch("/resetPassword/:id", user_controlller.resetPassword);
 // router.post("/changePassword", user_controlller.changePassword);
