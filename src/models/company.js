@@ -2,47 +2,43 @@ const mongoose = require("mongoose");
 
 const companySchema = mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
     companyName: {
       type: String,
-      require: true,
+      required: true,
     },
-    businessType: {
-      type: String,
-    },
-    registerAddress: {
-      type: String,
-    },
+    businessType: String,
+    registerAddress: String,
     email: {
       type: String,
-      require: true,
+      required: true,
     },
     phoneNumber: {
       type: Number,
-      require: true,
+      required: true,
     },
     NtnNumber: {
       type: Number,
-      require: true,
+      required: true,
     },
-    salesTaxNumber: {
-      type: Number,
-    },
-
+    salesTaxNumber: Number,
     country: {
       type: String,
-      require: true,
+      required: true,
     },
     province: {
       type: String,
-      require: true,
+      required: true,
     },
     city: {
       type: String,
-      require: true,
+      required: true,
     },
-    website: {
-      type: String,
-    },
+    website: String,
   },
   { timestamps: true }
 );

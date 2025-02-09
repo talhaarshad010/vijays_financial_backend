@@ -140,15 +140,30 @@ const createCompany = async (req, res) => {
       return res.status(404).json({ message: "User not found!" });
     }
 
-    // Check if user mode is "Pro"
+    // If user is "Normal", allow the request but don't save in database
     if (user.mode !== "Pro") {
-      return res
-        .status(403)
-        .json({ message: "Only Pro users can create a company!" });
+      return res.status(200).json({
+        message:
+          "Company creation simulated. Upgrade to Pro to save it permanently.",
+        company: {
+          companyName,
+          businessType,
+          registerAddress,
+          email,
+          phoneNumber,
+          NtnNumber,
+          salesTaxNumber,
+          country,
+          province,
+          city,
+          website,
+        },
+      });
     }
 
-    // Create new company
-    const newCompany = new company({
+    // Create new company with userId for Pro users
+    const newCompany = new Company({
+      userId, // Storing user ID inside company
       companyName,
       businessType,
       registerAddress,
@@ -164,6 +179,7 @@ const createCompany = async (req, res) => {
 
     await newCompany.save();
 
+    // Push new company ID to user's companies array
     user.companies.push(newCompany._id);
     await user.save();
 
@@ -177,9 +193,31 @@ const createCompany = async (req, res) => {
   }
 };
 
+const getUserCompanies = async (req, res) => {
+  try {
+    const { userId } = req.user; // Get user ID from token
+
+    // Find user and populate company details
+    const user = await User.findById(userId).populate("companies");
+
+    if (!user || user.companies.length === 0) {
+      return res.status(404).json({ message: "No companies found!" });
+    }
+
+    res.status(200).json({
+      message: "Companies fetched successfully!",
+      companies: user.companies,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 module.exports = {
   userSignup,
   userSignin,
   setMode,
   createCompany,
+  getUserCompanies,
 };
