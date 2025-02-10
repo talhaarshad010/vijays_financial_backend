@@ -29,6 +29,14 @@ const userSchema = mongoose.Schema(
         ref: "company", // Stores multiple company IDs
       },
     ],
+    otp: {
+      type: String,
+      default: null,
+    },
+    expiryCode: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );
