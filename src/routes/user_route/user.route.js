@@ -10,7 +10,4 @@ router.get("/getCompanies", authMiddleware, user_controlller.getUserCompanies);
 router.post("/ForgotPassword", authMiddleware, user_controlller.forgetPassword);
 router.post("/VerifyOtp", authMiddleware, user_controlller.verifyOtp);
 router.post("/UpdatePassword", authMiddleware, user_controlller.updatePassword);
-// router.post("/forgetPassword", user_controlller.forgetPassword);
-// router.patch("/resetPassword/:id", user_controlller.resetPassword);
-// router.post("/changePassword", user_controlller.changePassword);
 module.exports = router;

@@ -26,7 +26,7 @@ const userSchema = mongoose.Schema(
     companies: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "company", // Stores multiple company IDs
+        ref: "company",
       },
     ],
     otp: {

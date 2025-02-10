@@ -321,6 +321,62 @@ const forgetPassword = async (req, res) => {
   }
 };
 
+// const verifyOtp = async (req, res) => {
+//   const { email, otp } = req.body;
+
+//   try {
+//     const user = await User.findOne({ email });
+
+//     if (!user) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "User not found",
+//       });
+//     }
+
+//     if (!user.otp || !user.expiryCode) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "OTP not generated, please request a new one",
+//       });
+//     }
+
+//     const currentTime = new Date();
+
+//     if (currentTime > user.expiryCode) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "OTP has expired, please request a new one",
+//       });
+//     }
+
+//     if (user.otp !== otp) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid OTP",
+//       });
+//     }
+
+//     // Clear OTP after successful verification
+//     await User.updateOne(
+//       { _id: user._id },
+//       { $set: { otp: null, expiryCode: null } }
+//     );
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "OTP verified successfully",
+//     });
+//   } catch (error) {
+//     console.error("OTP Verification Error:", error);
+//     return res.status(500).json({
+//       success: false,
+//       message: "An error occurred during OTP verification",
+//       error: error.message,
+//     });
+//   }
+// };
+
 const verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
 
@@ -357,11 +413,7 @@ const verifyOtp = async (req, res) => {
       });
     }
 
-    // Clear OTP after successful verification
-    await User.updateOne(
-      { _id: user._id },
-      { $set: { otp: null, expiryCode: null } }
-    );
+    // Removed clearing of OTP and expiryCode, as per your request
 
     return res.status(200).json({
       success: true,
