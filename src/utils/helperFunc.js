@@ -2,10 +2,10 @@ const nodemailer = require("nodemailer");
 
 const sendEmail = async (mailOptions) => {
   const Transporter = nodemailer.createTransport({
-    host: "smtp.logicloopsolutions.net",
+    host: process.env.SMTP_HOST,
     auth: {
-      user: "abdul.basit@logicloopsolutions.net",
-      pass: "hKFAQ2QarjBBpLfNJBD5",
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
     },
     port: 465,
     secure: true,
